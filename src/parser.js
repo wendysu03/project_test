@@ -1,12 +1,13 @@
-import * as XLSX from 'xlsx';
+// 🌟 基礎原生模式優化：已拔除 import 與 export 語法，欄位命名與解析邏輯 100% 保持原樣
 
-export function parseExcelWorkbook(file) {
+function parseExcelWorkbook(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
     reader.onload = function(evt) {
       try {
         const data = evt.target.result;
+        // 核心邏輯保持原樣
         const workbook = XLSX.read(data, { type: 'binary' });
         
         const resultData = {

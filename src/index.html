@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>題庫測驗系統</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js" defer></script>
+  <script src="./parser.js" defer></script>
+  <script src="./exporter.js" defer></script>
+  <script src="./main.js" defer></script>
+</head>
+<body class="bg-light">
+
+  <header class="bg-dark text-white text-center py-5 mb-5 shadow-sm">
+    <div class="container">
+      <h1 class="display-4 fw-bold">🌟 題庫隨取隨練系統</h1>
+      <p class="lead mb-0">上傳大題庫或錯題本</p>
+    </div>
+  </header>
+
+  <div class="container my-5" style="max-width: 850px;">
+    
+    <div id="setupSection" class="card shadow-sm p-4 mb-4 border-0 rounded-4">
+      <h3 class="mb-4 fw-bold text-secondary border-bottom pb-2">🛠 測驗設定</h3>
+      
+      <div class="mb-4">
+        <label for="excelFile" class="form-label fw-bold text-dark">第一步：上傳題庫 Excel 檔案</label>
+        <input type="file" class="form-control form-control-lg shadow-sm" id="excelFile" accept=".xlsx, .xls">
+      </div>
+
+      <div id="statusMessageAlert" class="alert d-none mb-4 shadow-sm border-start border-4" role="alert">
+        <span id="statusMessageText"></span>
+      </div>
+
+      <div id="wrongModeAlert" class="alert alert-danger d-none mb-4 shadow-sm border-start border-danger border-4" role="alert">
+        🚀 <strong>錯題盲練模式：</strong> 系統已成功載入錯題記錄，將針對您的弱點題目進行盲練。
+      </div>
+
+      <div id="rangeSelectorGroup" class="mb-4 d-none">
+        <label class="form-label fw-bold text-dark">第二步：選擇題庫抽題範圍</label>
+        <div class="d-flex gap-4 p-3 bg-white rounded shadow-sm border">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="sheetRange" id="rangeBefore" value="before" disabled>
+            <label class="form-check-label fw-bold text-muted" for="rangeBefore">課前篇</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="sheetRange" id="rangeNet" value="net" disabled>
+            <label class="form-check-label fw-bold text-muted" for="rangeNet">網路資源</label>
+          </div>
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="sheetRange" id="rangeBoth" value="both" disabled>
+            <label class="form-check-label fw-bold text-muted" for="rangeBoth">全部混合</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="card p-3 bg-white rounded-3 border shadow-sm">
+        <div class="row align-items-center g-3">
+          <div class="col-md-3">
+            <label for="quizCount" class="col-form-label fw-bold text-secondary">第三步：抽取題數</label>
+          </div>
+          <div class="col-md-3">
+            <input type="number" id="quizCount" class="form-control form-control-lg text-center fw-bold" value="10" min="1" disabled>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <span id="totalAvailableText" class="badge bg-secondary fs-6 p-2 w-100 py-3">（請先上傳檔案）</span>
+          </div>
+          <div class="col-12">
+            <button id="startBtn" class="btn btn-primary btn-lg w-100 mt-2 py-3 fw-bold shadow" disabled style="border-radius: 10px; font-size: 1.25rem;">
+              🎲 開始隨取隨練
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="quizContainer" class="d-none">
+      <div id="formValidationAlert" class="alert alert-warning d-none mb-4 shadow-sm border-start border-warning border-4" role="alert">
+        ⚠️ <strong>請注意：</strong> 畫面中還有題目尚未作答，請全部填寫完畢後再送出評分！
+      </div>
+
+      <form id="quizForm" onsubmit="return false;" novalidate>
+        <div id="questionsWrapper"></div>
+        
+        <div class="text-center my-5">
+          <button type="button" id="submitBtn" class="btn btn-success btn-lg px-5 py-3 shadow-lg fw-bold rounded-pill">
+            🏁 送出答案評分
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <div id="resultContainer" class="d-none">
+      <div class="card shadow border-0 overflow-hidden mb-4 rounded-4">
+        <div class="card-body text-center bg-dark text-white p-5">
+          <h1 class="display-1 fw-bold text-warning mb-2"><span id="scoreText">0</span></h1>
+          <p class="fs-4 mb-0 text-white-50">本次測驗得分</p>
+        </div>
+      </div>
+      
+      <div class="d-flex gap-3 justify-content-center mb-5">
+        <button id="restartBtn" class="btn btn-outline-primary btn-lg px-4 py-2 fw-bold shadow-sm rounded-3">🔄 再測驗一次</button>
+        <button id="exportWrongBtn" class="btn btn-danger btn-lg px-4 py-2 fw-bold shadow-sm rounded-3 d-none">📥 匯出本次錯題本</button>
+      </div>
+
+      <h3 class="fw-bold text-secondary mb-4 border-bottom pb-2">📝 答題狀況詳情：</h3>
+      <div id="resultDetails"></div>
+    </div>
+
+  </div>
+
+</body>
+</html>
