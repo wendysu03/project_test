@@ -1,0 +1,29 @@
+/* 讓選項按鈕文字靠左對齊，並給予舒適的內襯空間 */
+.quiz-option-btn {
+  width: 100%;
+  text-align: left !important;
+  padding: 1rem 1.25rem !important;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px !important;
+  border: 1px solid #dee2e6 !important;
+  background-color: #ffffff !important;
+  color: #495057 !important;
+  transition: all 0.2s ease-in-out;
+}
+
+/* 滑鼠滑過選項時的輕微變色反饋 */
+.quiz-option-btn:hover {
+  background-color: #f1f3f5 !important;
+  border-color: #adb5bd !important;
+  color: #212529 !important;
+}
+
+/* 當底層被隱藏的 .btn-check 的項目被勾選時，將這個相鄰的 label 按鈕轉為 Bootstrap 經典藍色 */
+.btn-check:checked + .quiz-option-btn {
+  background-color: #e7f1ff !important;
+  border-color: #0429fae8 !important;
+  color: #0a58ca !important;
+  font-weight: 500;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+}

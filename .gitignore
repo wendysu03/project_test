@@ -1,0 +1,16 @@
+# 忽略前端依賴套件目錄（最重要！）
+node_modules/
+
+# 忽略 Vite 打包產生的本地暫存與編譯結果
+dist/
+dist-ssr/
+*.local
+
+# 忽略日誌檔案
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# 忽略作業系統的暫存檔
+.DS_Store
+Thumbs.db

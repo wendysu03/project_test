@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Management Quiz System</title>
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body class="bg-light">
+
+  <div class="container my-5" style="max-width: 850px;">
+    <div class="text-center mb-4">
+      <h1 class="display-6 fw-bold text-primary">Project Management Quiz System</h1>
+      <p class="text-muted">隨機測驗與錯題練系統 (智慧合併模組版)</p>
+    </div>
+    
+    <div id="setupSection" class="card shadow-sm border-start border-primary border-4 mb-4">
+      <div class="card-body p-4">
+        
+        <div class="mb-4">
+          <label for="excelFile" class="form-label fw-bold text-secondary">1. 請上傳檔案 (支援原始題庫 或 匯出的錯題本)：</label>
+          <input class="form-control" type="file" id="excelFile" accept=".xlsx, .xls">
+        </div>
+        
+        <div id="rangeSelectorGroup" class="mb-4">
+          <label class="form-label fw-bold text-secondary">2. 請選擇測驗題庫範圍：</label>
+          <div class="p-3 bg-white rounded border">
+            <div class="form-check form-check-inline me-4">
+              <input class="form-check-input" type="radio" name="sheetRange" id="rangeBefore" value="before" checked disabled>
+              <label class="form-check-label" for="rangeBefore">課前測驗</label>
+            </div>
+            <div class="form-check form-check-inline me-4">
+              <input class="form-check-input" type="radio" name="sheetRange" id="rangeNet" value="net" disabled>
+              <label class="form-check-label" for="rangeNet">網路資源</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="sheetRange" id="rangeBoth" value="both" disabled>
+              <label class="form-check-label" for="rangeBoth">綜合測驗 (兩者皆要)</label>
+            </div>
+          </div>
+        </div>
+
+        <div id="wrongModeAlert" class="mb-4 d-none">
+          <label class="form-label fw-bold text-danger">2. 練習範圍：</label>
+          <div class="alert alert-danger d-flex align-items-center m-0 py-3 rounded-3 shadow-sm border-start border-danger border-4" role="alert">
+            <div class="fs-5 me-2">🎯</div>
+            <div>
+              <strong class="fs-6">已偵測到「錯題複習本」</strong><br>
+              <span class="small text-muted">系統已鎖定為錯題盲練複習，您不需手動勾選範圍。</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="mb-4">
+          <label for="quizCount" class="form-label fw-bold text-secondary">3. 每次隨機抽出幾題？</label>
+          <div class="d-flex align-items-center gap-3">
+            <input type="number" id="quizCount" class="form-control" value="10" min="1" style="width: 130px;" disabled>
+            <span id="totalAvailableText" class="badge bg-danger fs-6 p-2">(請先上傳 Excel 檔案)</span>
+          </div>
+        </div>
+        
+        <button id="startBtn" class="btn btn-primary btn-lg w-100 shadow-sm" disabled>開始測驗 (Start Quiz)</button>
+      </div>
+    </div>
+
+    <div id="quizContainer" class="d-none">
+      <form id="quizForm" class="needs-validation" novalidate>
+        <div id="questionsWrapper"></div>
+        <button type="button" id="submitBtn" class="btn btn-success btn-lg w-100 my-4 shadow">提交答案並評分</button>
+      </form>
+    </div>
+
+    <div id="resultContainer" class="d-none">
+      <div class="card shadow-sm mb-4">
+        <div class="card-body text-center p-5">
+          <h2 class="card-title fw-bold text-dark">測驗結果報告</h2>
+          <div class="display-2 fw-bold text-warning my-4">
+            <span id="scoreText">0</span> <span class="fs-4 text-secondary">/ 100 分</span>
+          </div>
+          
+          <div class="d-flex justify-content-center gap-3 mt-2">
+            <button id="restartBtn" class="btn btn-outline-primary btn-lg px-4">再測驗一次</button>
+            <button id="exportWrongBtn" class="btn btn-danger btn-lg px-4 d-none">📥 匯出本次錯題本</button>
+          </div>
+        </div>
+      </div>
+      
+      <h3 class="fw-bold text-secondary mb-3">對錯詳情與中文解析：</h3>
+      <div id="resultDetails"></div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
