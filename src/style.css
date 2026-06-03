@@ -1,29 +1,54 @@
-/* 讓選項按鈕文字靠左對齊，並給予舒適的內襯空間 */
-.quiz-option-btn {
-  width: 100%;
-  text-align: left !important;
-  padding: 1rem 1.25rem !important;
-  font-size: 1rem;
-  margin-bottom: 0.5rem;
-  border-radius: 8px !important;
-  border: 1px solid #dee2e6 !important;
-  background-color: #ffffff !important;
-  color: #495057 !important;
-  transition: all 0.2s ease-in-out;
+/* ==========================================================================
+   1. 測驗作答區：選項按鈕 Hover 與選取優化
+   ========================================================================== */
+/* 預設狀態：加深邊框與文字對比 */
+.options-group .btn-outline-secondary {
+    border-color: #a0aec0 !important; /* 邊框加深 */
+    color: #1a202c !important;        /* 文字改為深大理石黑，極清晰 */
+    background-color: #ffffff;
+    transition: all 0.2s ease-in-out; /* 讓 hover 縮放更平滑 */
 }
 
-/* 滑鼠滑過選項時的輕微變色反饋 */
-.quiz-option-btn:hover {
-  background-color: #f1f3f5 !important;
-  border-color: #adb5bd !important;
-  color: #212529 !important;
+/* 🌟 滑鼠懸停 (Hover) 效果：背景微變暗、邊框加粗、按鈕微微浮起 */
+.options-group .btn-outline-secondary:hover {
+    background-color: #f7fafc !important;
+    border-color: #4a5568 !important; /* 邊框變成深灰 */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important; /* 輕微陰影浮起 */
+    transform: translateY(-1px);       /* 微幅向上位移 */
 }
 
-/* 當底層被隱藏的 .btn-check 的項目被勾選時，將這個相鄰的 label 按鈕轉為 Bootstrap 經典藍色 */
-.btn-check:checked + .quiz-option-btn {
-  background-color: #e7f1ff !important;
-  border-color: #0429fae8 !important;
-  color: #0a58ca !important;
-  font-weight: 500;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.15);
+/* 當選項被選取時的 Bootstrap 原生對應優化 */
+.options-group .btn-check:checked + .btn-outline-secondary {
+    background-color: #4a5568 !important; /* 選取時變成洗鍊的深鐵灰 */
+    border-color: #2d3748 !important;
+    color: #ffffff !important;            /* 點選後文字轉純白 */
+}
+
+
+/* ==========================================================================
+   2. 結果頁面：黑灰色字體與對比度全面加深
+   ========================================================================== */
+/* 讓灰色提示區塊（翻譯與中文選項）的背景微調，文字大幅加深 */
+.alert-secondary {
+    background-color: #f1f3f5 !important; /* 稍微加深灰色背景襯托 */
+    border-left: 4px solid #6c757d !important; /* 左側加上質感邊條 */
+}
+
+/* 徹底解決「灰色字體不夠明顯」：將 text-muted 與 text-secondary 的灰階調深 */
+.alert-secondary .text-muted, 
+#resultContainer .text-muted,
+#resultContainer .text-secondary {
+    color: #2d3748 !important; /* 從原本的亮灰改為「深邃碳黑」，確保長輩或暗處看都很清晰 */
+    font-weight: 500 !important; /* 稍微加粗，提升可讀性 */
+}
+
+/* 加強顯示【中文題目翻譯】與【中文選項參考】標題的醒目度 */
+.alert-secondary .text-dark,
+#resultContainer strong {
+    color: #000000 !important; /* 標題強制純黑 */
+}
+
+/* 正確答案與您的回答區塊字體同步加粗 */
+#resultContainer .fs-5 {
+    font-weight: 600 !important;
 }
